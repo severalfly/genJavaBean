@@ -17,7 +17,7 @@ public class GeneralBean
 			File file = null;
 			if (args.length <= 0)
 			{
-				try
+			try
 				{
 					file = new File("E:\\learning\\MyTest\\utilJar\\test.md");
 				}

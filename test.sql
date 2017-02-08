@@ -1,15 +1,17 @@
-create table user_statistic_all_2016_share_record(
-  userid bigint(20) primary key, // 主键而已
-  uid varchar(50),
-  uuid varchar(50), 
-  lottery_id bigint, // 发奖id
-  send_result varchar(50),// 发券结果
-  create_time datetime,
-  update_time datetime,
-  ext1 int,
-  ext2 int,
-  ext3 varchar(100),
-  ext4 varchar(500),
-  ext5 varchar(1000)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-create index index_usa2r_ct on user_statistic_all_2016_share_record(create_time)
+CREATE TABLE order_export_hbgj(
+        order_id varchar(30),  /* 订单或子订单ID */
+        main_order_id varchar(30),  /* 订单ID */
+        sub_order_id varchar(30),  /* 子订单ID */
+        bs_type  tinyint DEFAULT 0 NOT NULL, /** 1火车票   7汽车票   21送餐*/
+        order_type tinyint DEFAULT 0 NOT NULL, /**  1主订单  2子订单 */
+        order_change tinyint DEFAULT 0 NOT NULL, /**  1创建  2修改 */
+        export_status tinyint DEFAULT 0 NOT NULL, /**  0 需要处理  1成功  2失败 */
+        platid varchar(50), /** 平台订单id */
+        shortid varchar(15), /** 短订单号 */
+        create_time datetime,
+        update_time datetime,
+        primary key(order_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+CREATE INDEX index_ct_up  ON order_export_hbgj(export_status, update_time);
+CREATE INDEX index_ct  ON order_export_hbgj(create_time);
+CREATE INDEX index_oeh_pi on order_export_hbgj(platid);
