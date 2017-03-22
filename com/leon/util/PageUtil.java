@@ -1,6 +1,4 @@
-package  com.leon.util;
-import com.leon.util.Page;
-
+package leon.util;
 
 public class PageUtil
 {

@@ -1,17 +1,19 @@
-CREATE TABLE order_export_hbgj(
-        order_id varchar(30),  /* 订单或子订单ID */
-        main_order_id varchar(30),  /* 订单ID */
-        sub_order_id varchar(30),  /* 子订单ID */
-        bs_type  tinyint DEFAULT 0 NOT NULL, /** 1火车票   7汽车票   21送餐*/
-        order_type tinyint DEFAULT 0 NOT NULL, /**  1主订单  2子订单 */
-        order_change tinyint DEFAULT 0 NOT NULL, /**  1创建  2修改 */
-        export_status tinyint DEFAULT 0 NOT NULL, /**  0 需要处理  1成功  2失败 */
-        platid varchar(50), /** 平台订单id */
-        shortid varchar(15), /** 短订单号 */
-        create_time datetime,
-        update_time datetime,
-        primary key(order_id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
-CREATE INDEX index_ct_up  ON order_export_hbgj(export_status, update_time);
-CREATE INDEX index_ct  ON order_export_hbgj(create_time);
-CREATE INDEX index_oeh_pi on order_export_hbgj(platid);
+CREATE TABLE `user_order_refund_reduce` (
+order_id varchar(30), // 订单号
+sub_order_id varchar(30),// 子订单号
+userid bigint,
+uid  varchar(30),
+p varchar(100),
+create_time datetime,
+update_time datetime,
+coupon_id varchar(50),// 红包id
+coupon_return_amount decimal(10, 2), // 使用的红包可返现金额
+coupon_return_time datetime,// 返现时间
+random_amount  decimal(10,2),// 拼手气金额
+random_time datetime,  // 拼手气金额时间
+random_id varchar(30),// 拼手气id,用于返现，也可用于记录
+random_userid bigint,// 拼手气的userid
+  KEY `index_uorr_ct` (`create_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+  

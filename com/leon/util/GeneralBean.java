@@ -1,3 +1,5 @@
+package leon.util;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -11,15 +13,16 @@ public class GeneralBean
 {
 	public static void main(String[] args)
 	{
-
+		BufferedReader reader = null;
+		FileOutputStream out = null;
 		try
 		{
 			File file = null;
 			if (args.length <= 0)
 			{
-			try
+				try
 				{
-					file = new File("E:\\learning\\MyTest\\utilJar\\test.md");
+					file = new File("D:\\learning\\openLearn\\genJavaBen\\test.sql");
 				}
 				catch (Exception e)
 				{
@@ -31,11 +34,11 @@ public class GeneralBean
 			{
 				file = new File(args[0]);
 			}
-			
+
 			String filePath = file.getCanonicalPath();
 			filePath = filePath.replace("\\", "/");
 			String path = filePath.substring(0, filePath.lastIndexOf("/"));
-			BufferedReader reader = new BufferedReader(new FileReader(file));
+			reader = new BufferedReader(new FileReader(file));
 			String line = "";
 			boolean start = false;
 			boolean end = false;
@@ -54,6 +57,9 @@ public class GeneralBean
 					oriBeanName = line.split("[ ]+")[2].trim().replaceAll("[\\W]{1,}", "");
 					beanName = addMoreInfoInName(oriBeanName);
 					beanName = toUpperCaseFirst(beanName);
+					out = new FileOutputStream(new File(path + "/" + beanName + ".java"));
+					out.write(("public class " + beanName + "\n").getBytes("utf-8"));
+					out.write("{\n".getBytes("utf-8"));
 					start = true;
 					continue;
 				}
@@ -65,11 +71,24 @@ public class GeneralBean
 				{
 					continue;
 				}
-				line = line.trim().replaceAll("/\\*.*\\*/", "").replaceAll("//.*", ""); // È¥³ý×¢ÊÍ
+				String jcomment = "";
+				int s = line.indexOf("/*");
+				int e = line.indexOf("*/");
+				if (e > s)
+				{
+					jcomment += line.substring(s, e);
+				}
+				int m = line.indexOf("//");
+				if (m > 0)
+				{
+					jcomment += line.substring(m);
+				}
+				line = line.trim().replaceAll("/\\*.*\\*/", "").replaceAll("//.*", ""); // åŽ»æŽ‰æ³¨é‡Š
 				String[] duans = line.split("[ ]{1,}");
 				if (duans.length < 2)
 				{
-					throw new Exception("Êý¾Ý´íÎó£¬" + line);
+					out.close();
+					throw new Exception("è¡Œé”™è¯¯" + line);
 				}
 				String duan = duans[0].trim().replaceAll("[\\W]{1,}", "");
 				String oriDuan = duan;
@@ -99,17 +118,11 @@ public class GeneralBean
 					oriName.put(oriDuan, "Timestamp");
 					name.put(duan, "Timestamp");
 				}
-
-			}
-
-			FileOutputStream out = new FileOutputStream(new File(path + "/" + beanName + ".java"));
-			out.write(("public class " + beanName + "\n").getBytes("utf-8"));
-			out.write("{\n".getBytes("utf-8"));
-			for (Map.Entry<String, String> me : name.entrySet())
-			{
-				line = "\tprivate " + me.getValue() + " " + me.getKey() + ";\n";
+				out.write((jcomment + "\n").getBytes("utf-8"));
+				line = "\tprivate " + name.get(duan) + " " + duan + ";\n";
 				out.write(line.getBytes("utf-8"));
 			}
+			reader.close();
 			out.write("}\n".getBytes("utf-8"));
 			out.close();
 
@@ -126,7 +139,7 @@ public class GeneralBean
 			{
 				if (me.getKey().contains("update_time"))
 				{
-					continue;// ´øÊ±¼äµÄ²»×Ô¶¯²åÈë
+					continue;// ï¿½ï¿½Ê±ï¿½ï¿½Ä²ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½
 				}
 				sql.append(me.getKey() + ",");
 			}
@@ -135,7 +148,7 @@ public class GeneralBean
 			{
 				if (me.getKey().contains("update_time"))
 				{
-					continue;// ´øÊ±¼äµÄ²»×Ô¶¯²åÈë
+					continue;// ï¿½ï¿½Ê±ï¿½ï¿½Ä²ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½
 				}
 				if (me.getKey().contains("create_time"))
 				{
@@ -152,7 +165,7 @@ public class GeneralBean
 			{
 				if (me.getKey().contains("updateTime"))
 				{
-					continue;// ´øÊ±¼äµÄ²»×Ô¶¯²åÈë
+					continue;// ï¿½ï¿½Ê±ï¿½ï¿½Ä²ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½
 				}
 				if (me.getKey().contains("createTime"))
 				{
@@ -198,12 +211,30 @@ public class GeneralBean
 			write(out, "\t}");
 
 			write(out, "}");
+			out.close();
 
 		}
 		catch (Exception e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if (reader != null)
+				{
+					reader.close();
+				}
+				if (out != null)
+				{
+					out.close();
+				}
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
 		}
 		System.out.println("success");
 
