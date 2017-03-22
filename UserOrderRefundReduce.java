@@ -1,8 +1,8 @@
 public class UserOrderRefundReduce
 {
-// 订单号
+// 璁㈠崟鍙�
 	private String orderId;
-// 子订单号
+// 瀛愯鍗曞彿
 	private String subOrderId;
 
 	private long userid;
@@ -14,19 +14,19 @@ public class UserOrderRefundReduce
 	private Timestamp createTime;
 
 	private Timestamp updateTime;
-// 红包id
+// 绾㈠寘id
 	private String couponId;
-// 使用的红包可返现金额
+// 浣跨敤鐨勭孩鍖呭彲杩旂幇閲戦
 	private BigDecimal couponReturnAmount;
-// 返现时间
+// 杩旂幇鏃堕棿
 	private Timestamp couponReturnTime;
-// 拼手气金额
+// 鎷兼墜姘旈噾棰�
 	private BigDecimal randomAmount;
-// 拼手气金额时间
+// 鎷兼墜姘旈噾棰濇椂闂�
 	private Timestamp randomTime;
-// 拼手气id,用于返现，也可用于记录
+// 鎷兼墜姘攊d,鐢ㄤ簬杩旂幇锛屼篃鍙敤浜庤褰�
 	private String randomId;
-// 拼手气的userid
+// 鎷兼墜姘旂殑userid
 	private long randomUserid;
 
 	private null KEY;

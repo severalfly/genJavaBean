@@ -4,7 +4,7 @@
  <groupId>com.leon.util</groupId>
  <artifactId>leon-util</artifactId>
  <version>1.0</version>
- <name>工具类</name>
+ <name>genJavaBean</name>
  <description>A dictionary and grammar-based Chinese segmenter.</description>
  <!-- org.apache.maven.plugins:maven-install-plugin:2.4 -->
 
@@ -21,7 +21,7 @@
 	
 	
    <build>
-        <finalName>jar</finalName>  
+        <finalName>genJavaBean</finalName>  
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -31,7 +31,7 @@
                 <configuration>  
                     <archive>  
                         <manifest>  
-                            <mainClass>org.ch2.t99.RunThread</mainClass>  
+                            <mainClass>leon.util.GeneralBean</mainClass>  
                         </manifest>  
                     </archive>  
                 </configuration>  
