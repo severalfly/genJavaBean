@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -15,6 +16,7 @@ public class GeneralBean
 	{
 		BufferedReader reader = null;
 		FileOutputStream out = null;
+		OutputStreamWriter writer = null;
 		try
 		{
 			File file = null;
@@ -58,6 +60,7 @@ public class GeneralBean
 					beanName = addMoreInfoInName(oriBeanName);
 					beanName = toUpperCaseFirst(beanName);
 					out = new FileOutputStream(new File(path + "/" + beanName + ".java"));
+					writer = new OutputStreamWriter(out);
 					out.write(("public class " + beanName + "\n").getBytes("utf-8"));
 					out.write("{\n".getBytes("utf-8"));
 					start = true;
@@ -119,8 +122,11 @@ public class GeneralBean
 					name.put(duan, "Timestamp");
 				}
 				out.write((jcomment + "\n").getBytes("utf-8"));
+				//				System.out.println(jcomment);
+
 				line = "\tprivate " + name.get(duan) + " " + duan + ";\n";
 				out.write(line.getBytes("utf-8"));
+				//				writer.write(line);
 			}
 			reader.close();
 			out.write("}\n".getBytes("utf-8"));
